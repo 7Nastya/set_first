@@ -1,26 +1,44 @@
 {% load static %}
 <html>
 <head>
+{#    <link rel="shortcut icon" href="/favicon/jack.favicon" type="image/favicon">#}
+    <link rel="shortcut icon" href="{% static 'favicon/jack.png' %}"/>
+
     <title>{{title}}</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Только CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Пакет JavaScript с Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page-header">
     <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-    <h1><a href="/">Django Girls Blog</a></h1>
-
-    {% block mainmenu %}
-    <ul>
-        {% for m in menu %}
-    <li>{{m}}</li>
-        {% endfor %}
-    </ul>
-    {% endblock mainmenu %}
-
+      <h1><a href="/">Adventure Time</a></h1>
+{#    <div class="dropdown">#}
+      <h2><button class="btn btn-outline-warning pull-right btn-lg" style="font-size:27px; height:39px; width:270px; padding-top:5px;padding-bottom:7px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Меню
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        {% block mainmenu %}
+            {% for m in menu %}
+                {% if not forloop.last %}
+                    <li><a class="dropdown-item" href="#">{{m.title}}</a></li>
+                {% else %}
+                    <li><a class="dropdown-item" href="#">{{m.title}}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% endblock mainmenu %}
+      </ul>
+      </h2>
 </div>
+
 <div class="content container">
     <div class="row">
         <div class="col-md-8">

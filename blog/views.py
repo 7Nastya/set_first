@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView
@@ -44,6 +44,8 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
 
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 class PostListView(ListView):
     template_name = 'blog/post_list.html'
