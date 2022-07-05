@@ -1,6 +1,7 @@
 {% load static %}
 <html>
 <head>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
@@ -10,6 +11,15 @@
 <div class="page-header">
     <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
     <h1><a href="/">Django Girls Blog</a></h1>
+
+    {% block mainmenu %}
+    <ul>
+        {% for m in menu %}
+    <li>{{m}}</li>
+        {% endfor %}
+    </ul>
+    {% endblock mainmenu %}
+
 </div>
 <div class="content container">
     <div class="row">
