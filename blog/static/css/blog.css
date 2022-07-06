@@ -40,8 +40,11 @@ h1, h2, h3, h4, h5, h6 {
 .top-menu,.top-menu:hover, .top-menu:visited {
     color: #ffffff;
     float: right;
-    font-size: 18pt;
-    margin-right: 20px;
+    font-size: 30pt;
+    padding-top:5px;
+    padding-bottom:7px;
+    text-align: center;
+    height:80px; width:80px;
 }
 
 .post {
@@ -61,4 +64,14 @@ h1, h2, h3, h4, h5, h6 {
 .button {
     border-radius: 40px;
     color: aquamarine;
+}
+
+.box {
+  display: flex;
+  /*align-items: stretch;*/
+  flex-flow: row nowrap;
+   margin-top: 0;
+    padding: 30px 30px 45px 40px;
+     justify-content: space-around;
+  /*height: ;*/
 }

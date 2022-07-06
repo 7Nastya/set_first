@@ -18,11 +18,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
 </head>
 <body>
+
 <div class="page-header">
-    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+<div class="box">
       <h1><a href="/">Adventure Time</a></h1>
 {#    <div class="dropdown">#}
-      <h2><button class="btn btn-outline-warning pull-right btn-lg" style="font-size:27px; height:39px; width:270px; padding-top:5px;padding-bottom:7px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <h2><button class="btn btn-outline-warning pull-right btn-lg" style="font-size:27px; height:70px; width:270px; padding-top:5px;padding-bottom:7px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Меню
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -37,6 +38,8 @@
         {% endblock mainmenu %}
       </ul>
       </h2>
+    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+</div>
 </div>
 
 <div class="content container">
