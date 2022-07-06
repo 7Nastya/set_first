@@ -19,11 +19,22 @@
 </head>
 <body>
 
+<div class="bg-image img1">
 <div class="page-header">
+
+<div class="sidebar">
+  <a class="active" href="#home">Главная</a>
+  <a href="#news">Новости</a>
+  <a href="#contact">Контакт</a>
+  <a href="#about">О Нас</a>
+</div>
+
 <div class="box">
-      <h1><a href="/">Adventure Time</a></h1>
+      <h1>Adventure Time</h1>
 {#    <div class="dropdown">#}
-      <h2><button class="btn btn-outline-warning pull-right btn-lg" style="font-size:27px; height:70px; width:270px; padding-top:5px;padding-bottom:7px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <h2><button class="btn btn-danger pull-right btn-lg"
+                  style="font-size:27px; height:70px; width:270px; padding-top:5px;padding-bottom:7px;background-color: #f80339;"
+                  type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Меню
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -40,15 +51,18 @@
       </h2>
     <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
 </div>
-</div>
-
-<div class="content container">
-    <div class="row">
-        <div class="col-md-8">
+{#</div>#}
+{#</div>#}
+<div class="content">
+{#    <div class="row">#}
+{#        <div class="col-md-8">#}
             {% block content %}
             {% endblock %}
-        </div>
-    </div>
+{#        </div>#}
+{#    </div>#}
+</div>
+</div>
+</div>
 </div>
 </body>
 </html>

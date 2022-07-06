@@ -1,24 +1,31 @@
 .page-header {
-    background-color: #fc0580;
+    /*background-color: #fc0580;*/
     margin-top: 0;
     padding: 30px 30px 45px 40px;
+    border: none;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #f5e460;
+    /*color: #f5e460;*/
+    color: #f80339;
     font-size: 36pt;
     text-decoration: none;
+    border: none;
 }
 
 .page-header h2, .page-header h2 a, .page-header h2 a:visited, .page-header h2 a:active {
-    color: #ffffff;
-    background-color: #fc0580;
+    /*color: #ffffff;*/
+    color: #f80339;
+    /*background-color: #fc0580;*/
     font-size: 25pt;
     text-decoration: none;
 }
 
 .content {
+    background-color: #ffffff;
     margin-left: 40px;
+    font-size: 15pt;
+    width:1000px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -38,7 +45,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .top-menu,.top-menu:hover, .top-menu:visited {
-    color: #ffffff;
+    /*color: #ffffff;*/
+    color: #f80339;
     float: right;
     font-size: 30pt;
     padding-top:5px;
@@ -52,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .post h1 a, .post h1 a:visited {
-    color: #000000;
+    color: #f80339;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -67,11 +75,85 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .box {
-  display: flex;
-  /*align-items: stretch;*/
+    display: flex;
   flex-flow: row nowrap;
    margin-top: 0;
     padding: 30px 30px 45px 40px;
      justify-content: space-around;
-  /*height: ;*/
 }
+/* боковая панель для меню */
+/* Боковое меню навигации */
+.sidebar {
+  font-family: 'academy engraved let', cursive;
+  font-size: 30pt;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 190px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Боковой панели ссылок */
+.sidebar a {
+  display: block;
+  /*color: black;*/
+  color: #f80339;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Активная/текущая ссылка */
+.sidebar a.active {
+    background-color: #f5e460;
+    color: white;
+}
+
+/* Ссылки на мышь-над */
+.sidebar a:hover:not(.active) {
+    background-color: #f5e460;
+  color: white;
+}
+
+/* Содержимое страницы. Значение свойства margin-left должно совпадать со значением свойства width боковой панели */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* На экранах, которые меньше 700px в ширину, сделать боковую панель в верхней панели */
+@media screen and (max-width: 1700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* На экранах размером менее 400 пикселей панель отображается вертикально, а не горизонтально */
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+/* image
+ */
+.bg-image {
+  /* Полный рост */
+  height: 100%;
+
+  /* Центр и масштаб изображения красиво */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Используемые изображения */
+.img1 { background-image: url("../png/house.jpg"); }
+.img2 { background-image: url("../png/two.jpg"); }
