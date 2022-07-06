@@ -1,12 +1,17 @@
+body {
+    min-height: 100vh;
+    background-image: url("../png/house.jpg");
+    background-repeat: repeat;
+}
+
 .page-header {
-    /*background-color: #fc0580;*/
+    width: 100%;
+    height: 100%;
     margin-top: 0;
-    padding: 30px 30px 45px 40px;
     border: none;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    /*color: #f5e460;*/
     color: #f80339;
     font-size: 36pt;
     text-decoration: none;
@@ -14,26 +19,22 @@
 }
 
 .page-header h2, .page-header h2 a, .page-header h2 a:visited, .page-header h2 a:active {
-    /*color: #ffffff;*/
     color: #f80339;
-    /*background-color: #fc0580;*/
     font-size: 25pt;
     text-decoration: none;
 }
 
 .content {
+    min-height: 250vh;
+    /*height: 100%;*/
     background-color: #ffffff;
     margin-left: 40px;
     font-size: 15pt;
-    width:1000px;
+    width: 1000px;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'academy engraved let', cursive;
-}
-
-.date {
-    color: #828282;
 }
 
 .save {
@@ -44,15 +45,15 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
-.top-menu,.top-menu:hover, .top-menu:visited {
-    /*color: #ffffff;*/
+.top-menu, .top-menu:hover, .top-menu:visited {
     color: #f80339;
     float: right;
     font-size: 30pt;
-    padding-top:5px;
-    padding-bottom:7px;
+    padding-top: 5px;
+    padding-bottom: 7px;
     text-align: center;
-    height:80px; width:80px;
+    height: 80px;
+    width: 80px;
 }
 
 .post {
@@ -67,42 +68,37 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
     background-color: #fc0580;
     display: block;
-    /*margin-top: 0;*/
-}
-.button {
-    border-radius: 40px;
-    color: aquamarine;
 }
 
 .box {
     display: flex;
-  flex-flow: row nowrap;
-   margin-top: 0;
+    align-content: center;
+    margin-top: 0;
     padding: 30px 30px 45px 40px;
-     justify-content: space-around;
+    justify-content: space-around;
 }
+
 /* боковая панель для меню */
 /* Боковое меню навигации */
 .sidebar {
-  font-family: 'academy engraved let', cursive;
-  font-size: 30pt;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  width: 190px;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
+    font-family: 'academy engraved let', cursive;
+    font-size: 30pt;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 190px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
 }
 
 /* Боковой панели ссылок */
 .sidebar a {
-  display: block;
-  /*color: black;*/
-  color: #f80339;
-  padding: 16px;
-  text-decoration: none;
+    display: block;
+    color: #f80339;
+    padding: 16px;
+    text-decoration: none;
 }
 
 /* Активная/текущая ссылка */
@@ -114,25 +110,31 @@ h1, h2, h3, h4, h5, h6 {
 /* Ссылки на мышь-над */
 .sidebar a:hover:not(.active) {
     background-color: #f5e460;
-  color: white;
+    color: white;
 }
 
 /* Содержимое страницы. Значение свойства margin-left должно совпадать со значением свойства width боковой панели */
 div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
 }
 
 /* На экранах, которые меньше 700px в ширину, сделать боковую панель в верхней панели */
 @media screen and (max-width: 1700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar a {
+        float: left;
+    }
+
+    div.content {
+        margin-left: 0;
+    }
 }
 
 /* На экранах размером менее 400 пикселей панель отображается вертикально, а не горизонтально */
@@ -142,18 +144,4 @@ div.content {
         float: none;
     }
 }
-/* image
- */
-.bg-image {
-  /* Полный рост */
-  height: 100%;
 
-  /* Центр и масштаб изображения красиво */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* Используемые изображения */
-.img1 { background-image: url("../png/house.jpg"); }
-.img2 { background-image: url("../png/two.jpg"); }
