@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 from django.views import View
@@ -10,6 +11,9 @@ from .forms import PostForm
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
 
 def post_list(request):
+    contact_list = Post.objects.all()
+    paginator = Paginator(contact_list, 3)
+
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts, 'menu':menu, 'title':'Главная страница'})
 
@@ -48,6 +52,7 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 class PostListView(ListView):
+    paginate_by = 3
     template_name = 'blog/post_list.html'
     model = Post
 
