@@ -1,7 +1,8 @@
 body {
     min-height: 100vh;
     background-image: url("../png/house.jpg");
-    background-repeat: repeat;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .page-header {
@@ -25,8 +26,7 @@ body {
 }
 
 .content {
-    min-height: 250vh;
-    /*height: 100%;*/
+    min-height: 220vh;
     background-color: #ffffff;
     margin-left: 40px;
     font-size: 15pt;
@@ -64,18 +64,21 @@ h1, h2, h3, h4, h5, h6 {
     color: #f80339;
 }
 
-img {max-width: 600px; height: auto;}
+img {
+    max-width: 600px;
+    height: auto;
+}
 
 img.img-article-left {
-	max-width: 300px;
-	height: auto;
-	float: left;
-	padding: 0 10px 10px 0;
+    max-width: 300px;
+    height: auto;
+    float: left;
+    padding: 0 10px 10px 0;
 }
 
 img.img-article-left.thumb {
-	max-width: 150px;
-	height: auto;
+    max-width: 150px;
+    height: auto;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -145,10 +148,6 @@ div.content {
     .sidebar a {
         float: left;
     }
-
-    div.content {
-        margin-left: 0;
-    }
 }
 
 /* На экранах размером менее 400 пикселей панель отображается вертикально, а не горизонтально */
@@ -159,3 +158,50 @@ div.content {
     }
 }
 
+.list-pages {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.list-pages ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list-pages a {
+    color: #000;
+    font-weight : bold;
+    font-size: 24px;
+    text-decoration: none;
+}
+.list-pages ul li {
+    background-color: #f80339;
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+
+.list-pages .page-num, .page-num-selected {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    padding: 10px 0 0 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 30px;
+}
+
+.list-pages .page-num:hover {
+    box-shadow: 3px 3px 1px #d0d0d0;
+}
+
+.list-pages .page-num-selected {
+    border: none;
+    color: #000;
+    font-weight : bold;
+    font-size: 20px;
+    background: none;
+}
+
+.list-pages .page-num-selected:hover {
+    box-shadow: none;
+}

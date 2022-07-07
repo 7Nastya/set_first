@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
+    {% for post in page.object_list %}
         <div class="post">
             <div class="date">
                 <p>Опубликовано: {{ post.published_date }}</p>
@@ -11,9 +11,7 @@
             {% endif %}
 
             <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-{#            <p><img src="../media/photos/2022/07/06/jake.png" width="160" height="200"> </p>#}
-{#            <p><img src={{ post.foto }} width="160" height="200"> </p>#}
-            <p>{{ post.text|linebreaksbr|truncatewords:70 }}</p>
+                <p>{{ post.text|linebreaksbr|truncatewords:70 }}</p>
         </div>
     {% endfor %}
 {% endblock %}

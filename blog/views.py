@@ -11,11 +11,13 @@ from .forms import PostForm
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
 
 def post_list(request):
+    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     contact_list = Post.objects.all()
-    paginator = Paginator(contact_list, 3)
+    paginator = Paginator(contact_list, 4)
 
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts, 'menu':menu, 'title':'Главная страница'})
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    return render(request, 'blog/post_list.html', {'page': page, 'posts': contact_list, 'menu': menu, 'title':'Главная страница'})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -52,7 +54,6 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 class PostListView(ListView):
-    paginate_by = 3
     template_name = 'blog/post_list.html'
     model = Post
 
