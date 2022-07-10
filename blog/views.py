@@ -11,7 +11,6 @@ from .forms import PostForm
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
 
 def post_list(request):
-    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     contact_list = Post.objects.all()
     paginator = Paginator(contact_list, 4)
 

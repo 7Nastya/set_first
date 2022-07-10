@@ -38,7 +38,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .save {
-    float: right;
+    font-size: 60pt;
+    size: auto;
+    float: left;
+    text-align: center;
+    height: 80px;
+    width: 100px;
 }
 
 .post-form textarea, .post-form input {
