@@ -1,9 +1,14 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView
-
+#10.07.22
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+from django.contrib.auth import authenticate, login
+from .forms import LoginForm
+#
 from .models import Post
 from django.utils import timezone
 from .forms import PostForm
@@ -47,7 +52,7 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
-    return render(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
+    return redirect(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
@@ -60,3 +65,27 @@ class PostListView(ListView):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['posts'] = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
         return context
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled account')
+            else:
+                return HttpResponse('Invalid login')
+    else:
+        form = LoginForm()
+    return render(request, 'blog/login.html', {'form': form})
+# class PostView(APIView):
+#     def get(self, request):
+#         post = Post.objects.all()
+#         return Response({"post":post})
+
+

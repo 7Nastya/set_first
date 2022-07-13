@@ -11,7 +11,18 @@ body {
     margin-top: 0;
     border: none;
 }
-
+.box_login{
+    /*align-content: center;*/
+    /*position: center;*/
+    /*padding: 30px 30px 45px 40px;*/
+    /*background-color: aqua;*/
+    /*size: ;*/
+}
+.login{
+    color: #f80339;
+    font-size: 15pt;
+    /*text-align: left;*/
+}
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
     color: #f80339;
     font-size: 36pt;

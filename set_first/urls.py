@@ -7,7 +7,9 @@ from set_first import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('blog/', include('blog.urls')),
+    # path('account/', include('blog.urls')),
     path('', include('blog.urls')),
+    # path('api/', include('blog.urls'))
 ]
 
 if settings.DEBUG:
