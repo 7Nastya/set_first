@@ -75,6 +75,8 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    # next = request.META.get('HTTP_REFERER', None) or '/'
+                    # response = HttpResponseRedirect(next)
                     return HttpResponse('Authenticated successfully')
                 else:
                     return HttpResponse('Disabled account')
