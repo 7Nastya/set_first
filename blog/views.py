@@ -2,8 +2,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import CreateView, FormMixin, FormView
+from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import FormView, UpdateView
 from django.urls import reverse
 #10.07.22
 # from rest_framework.response import Response
@@ -17,6 +17,8 @@ from django.utils import timezone
 from .forms import PostForm
 
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
+
+
 
 def post_list(request):
    # task = supper_sum.delay(900, 100)
@@ -43,6 +45,7 @@ class PostNew(FormView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.published_date = timezone.now()
         form.save()
         return super().form_valid(form)
 
@@ -66,19 +69,47 @@ class PostNew(FormView):
 #         form = PostForm()
 #     return render(request, 'blog/post_new.html', {'form': form, 'menu':menu, 'title':'Добавить статью'})
 
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
+class PostEdit(UpdateView):
+    model = Post
+    fields = ['title', 'text']
+    success_url = 'post_detail'
+    template_name = 'blog/post_edit.html'
+
+    def get_post(self, pk):
+        return get_object_or_404(Post, pk=pk)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Подробно'
+        context['menu'] = menu
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.published_date = timezone.now()
+        form.save()
+        return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        self.object = super().get_form(form_class)
+        return self.object
+
+    def get_success_url(self):
+        return reverse('post_detail', kwargs={'pk': self.object.pk})
+
+# def post_edit(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, instance=post)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.author = request.user
+#             post.published_date = timezone.now()
+#             post.save()
+#             return redirect('post_detail', pk=post.pk)
+#     else:
+#         form = PostForm(instance=post)
+#     return render(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

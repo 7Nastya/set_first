@@ -11,8 +11,10 @@ urlpatterns = [
     # path('post/<int:pk>/', views.PostDetail.as_view(), name='post_detail'),
     path('post/new/', views.PostNew.as_view(), name='post_new'),
     # path('post/new/', views.post_new, name='post_new'),
-    path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+    # path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+    path('post/<int:pk>/edit/', views.PostEdit.as_view(), name='post_edit'),
     path('login/', views.user_login, name='login'),
+
     # path('exit/', views.LogoutView.as_view(), name='exit'),
     # path('post/account', views.user_login, name='login'),
     # path('post/', PostView.as_view()),
