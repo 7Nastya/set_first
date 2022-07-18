@@ -3,12 +3,15 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView
+from django.views.generic.edit import CreateView, FormMixin, FormView
+from django.urls import reverse
 #10.07.22
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
-#
+# 17.07.22
+from set_first.tasks import supper_sum
 from .models import Post
 from django.utils import timezone
 from .forms import PostForm
@@ -16,9 +19,9 @@ from .forms import PostForm
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
 
 def post_list(request):
+   # task = supper_sum.delay(900, 100)
     contact_list = Post.objects.all()
     paginator = Paginator(contact_list, 4)
-
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(request, 'blog/post_list.html', {'page': page, 'posts': contact_list, 'menu': menu, 'title':'Главная страница'})
@@ -27,18 +30,41 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post, 'menu':menu, 'title':'Подробно'})
 
-def post_new(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'blog/post_new.html', {'form': form, 'menu':menu, 'title':'Добавить статью'})
+class PostNew(FormView):
+    form_class = PostForm
+    success_url = 'post_detail'
+    template_name = 'blog/post_new.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Добавить статью'
+        context['menu'] = menu
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        self.object = super().get_form(form_class)
+        return self.object
+
+    def get_success_url(self):
+        return reverse('post_detail',  kwargs={'pk': self.object.instance.pk } )
+
+# def post_new(request):
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.author = request.user
+#             post.published_date = timezone.now()
+#             post.save()
+#             return redirect('post_detail', pk=post.pk)
+#     else:
+#         form = PostForm()
+#     return render(request, 'blog/post_new.html', {'form': form, 'menu':menu, 'title':'Добавить статью'})
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -52,19 +78,10 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
-    return redirect(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
+    return render(request, 'blog/post_edit.html', {'form': form, 'menu':menu, 'title':'Подробно'})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-
-class PostListView(ListView):
-    template_name = 'blog/post_list.html'
-    model = Post
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        context['posts'] = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-        return context
 
 def user_login(request):
     if request.method == 'POST':
@@ -75,8 +92,6 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    # next = request.META.get('HTTP_REFERER', None) or '/'
-                    # response = HttpResponseRedirect(next)
                     return HttpResponse('Authenticated successfully')
                 else:
                     return HttpResponse('Disabled account')
@@ -85,6 +100,7 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'blog/login.html', {'form': form})
+
 # class PostView(APIView):
 #     def get(self, request):
 #         post = Post.objects.all()
