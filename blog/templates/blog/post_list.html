@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in page.object_list %}
+    {% for post in page_obj.object_list %}
         <div class="post">
             <div class="date">
                 <p>Опубликовано: {{ post.published_date }}</p>
@@ -15,4 +15,3 @@
         </div>
     {% endfor %}
 {% endblock %}
-{##}
