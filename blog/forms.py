@@ -1,6 +1,7 @@
 from django import forms
+
+from my_user.models import MyUser
 from .models import Post
-from .models import MyUser
 from django.contrib.auth.forms import UserChangeForm
 
 class PostForm(forms.ModelForm):

@@ -1,20 +1,18 @@
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-# 17.07.22
-from set_first.tasks import supper_sum
-from .models import Post, MyUser
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+
+from my_user.models import MyUser
+from .models import Post
 from django.utils import timezone
-from .forms import PostForm, ChangeUserInfoForm
+from .forms import PostForm
 
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
-
 
 class PostList(ListView):
     queryset = Post.objects.all()
@@ -31,7 +29,6 @@ class PostList(ListView):
         context['menu'] = menu
         return context
 
-
 class PostDetail(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
@@ -44,7 +41,6 @@ class PostDetail(DetailView):
         context['title'] = 'Подробно'
         context['menu'] = menu
         return context
-
 
 class PostNew(FormView):
     form_class = PostForm
