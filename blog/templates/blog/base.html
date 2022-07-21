@@ -21,9 +21,12 @@
 
     <div class="sidebar">
         <a class="active" href={% url 'post_list' %}>Главная</a>
-        <a href="{% url 'profile_edit' pk=request.user.pk %}">Изменить личные данные</a>
-        <a href="{% url 'login' %}">Войти</a>
-        <a href="{% url 'logout' %}">Выйти</a>
+        {% if request.user.pk %}
+            <a href="{% url 'profile_edit' pk=request.user.pk %}">Изменить личные данные</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+        {% endif %}
     </div>
 
     <div class="box">

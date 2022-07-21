@@ -6,41 +6,46 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, username, password, **extra_fields):
         """
         Создает и сохраняет пользователя с введенным им email и паролем.
         """
-        if not email:
+        if not username:
             raise ValueError('email должен быть указан')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        # email = self.normalize_email(username)
+        user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, username, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(username, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, username, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(username, password, **extra_fields)
 
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=64, verbose_name="Ник")
+    is_admin = models.BooleanField(default=False)
+    username = models.CharField(max_length=64, verbose_name="Ник", unique=True)
     birthday = models.DateField(null=True, blank=True, verbose_name="Дата рождения")
     date_joined = models.DateTimeField(null=True, blank=True, verbose_name="Дата присоединения")
-    email = models.EmailField(max_length=128, verbose_name="Адрес элктронной почты", unique=True)
+    email = models.EmailField(max_length=128, verbose_name="Адрес элктронной почты")
     first_name = models.CharField(max_length=256, verbose_name="Имя")
     last_name = models.CharField(max_length=256, verbose_name="Фамилия")
 
-    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
     objects = UserManager()
 

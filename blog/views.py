@@ -69,9 +69,10 @@ class PostNew(FormView):
 
 class ChangeUserInfoView(UpdateView):
     model = MyUser
-    template_name = 'blog/change_user_info.html'
+    template_name = 'blog/profile_edit.html'
     # form_class = ChangeUserInfoForm
     success_url = 'profile'
+    fields = ['birthday', 'first_name']
 
     def get_post(self, pk):
         return get_object_or_404(Post, pk=pk)
@@ -84,11 +85,9 @@ class ChangeUserInfoView(UpdateView):
         context = super().get_context_data(*args, **kwargs)
         context['menu'] = menu
         return context
-    # def get_object(self, queryset=None):
-    #     if not queryset:
-    #         queryset = self.get_queryset()
-    #     return get_object_or_404(queryset, pk = self.user_id)
 
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.object.pk})
 
 class PostEdit(UpdateView):
     model = Post
