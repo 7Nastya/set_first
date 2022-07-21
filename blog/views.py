@@ -2,14 +2,16 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView
-from django.urls import reverse
-from django.contrib.auth import authenticate, login
-from .forms import LoginForm
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # 17.07.22
 from set_first.tasks import supper_sum
-from .models import Post
+from .models import Post, MyUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.utils import timezone
-from .forms import PostForm
+from .forms import PostForm, ChangeUserInfoForm
 
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
 
@@ -43,6 +45,7 @@ class PostDetail(DetailView):
         context['menu'] = menu
         return context
 
+
 class PostNew(FormView):
     form_class = PostForm
     success_url = 'post_detail'
@@ -66,6 +69,29 @@ class PostNew(FormView):
 
     def get_success_url(self):
         return reverse('post_detail', kwargs={'pk': self.object.instance.pk})
+
+
+class ChangeUserInfoView(UpdateView):
+    model = MyUser
+    template_name = 'blog/change_user_info.html'
+    # form_class = ChangeUserInfoForm
+    success_url = 'profile'
+
+    def get_post(self, pk):
+        return get_object_or_404(Post, pk=pk)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['menu'] = menu
+        return context
+    # def get_object(self, queryset=None):
+    #     if not queryset:
+    #         queryset = self.get_queryset()
+    #     return get_object_or_404(queryset, pk = self.user_id)
 
 
 class PostEdit(UpdateView):
@@ -97,24 +123,18 @@ class PostEdit(UpdateView):
         return reverse('post_detail', kwargs={'pk': self.object.pk})
 
 
+class UserLogin(LoginView):
+    template_name = 'blog/login.html'
+
+
+class UserLoginOut(LoginRequiredMixin, LogoutView):
+    template_name = 'blog/logout.html'
+
+
+@login_required
+def profile(request):
+    return render(request, 'blog/profile.html', {'menu': menu})
+
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-
-
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authenticated successfully')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-    else:
-        form = LoginForm()
-    return render(request, 'blog/login.html', {'form': form})

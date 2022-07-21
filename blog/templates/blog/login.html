@@ -2,10 +2,14 @@
 {% block title %}Логин{% endblock %}
 {% block content %}
     <h1>Логин</h1>
+    {% if user.is_authenicated %}
+    <p>Вы уже выполнили вход.</p>
+    {% else %}
     <p>Пожалуйста, используйте следующую форму для входа:</p>
     <form action="" method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <p><input type="submit" value="Авторизация"></p>
     </form>
+    {% endif %}
 {% endblock %}

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Post
-
+from .models import MyUser
+from django.contrib.auth.forms import UserChangeForm
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -10,6 +11,11 @@ class PostForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+class ChangeUserInfoForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ('username', 'birthday', 'date_joined', 'email', 'first_name', 'last_name')
 
 #Регистрация пользователей:
 # class UserRegistrationForm(forms.ModelForm):
