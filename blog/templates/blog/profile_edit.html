@@ -2,9 +2,9 @@
 {% block title %}Правка личных данных{% endblock %}
 {% block content %}
     <h2>Правка личных данных пользователя {{ user.username }}</h2>
-    <form action="" method="post">
-{#        {{ form.as_p }}#}
+    <form method="POST" class="post-form">
         {% csrf_token %}
+        {{ form.as_p }}
         <p><input type="submit" value="Сохранить"></p>
     </form>
 {% endblock %}

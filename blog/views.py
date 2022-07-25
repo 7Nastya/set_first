@@ -71,7 +71,7 @@ class ChangeUserInfoView(UpdateView):
     model = MyUser
     template_name = 'blog/profile_edit.html'
     success_url = 'profile'
-    fields = ['birthday', 'first_name']
+    fields = ['birthday', 'first_name', 'last_name','email', 'username']
 
     def get_post(self, pk):
         return get_object_or_404(Post, pk=pk)
@@ -79,6 +79,11 @@ class ChangeUserInfoView(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         self.user_id = request.user.pk
         return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -124,11 +129,12 @@ class UserLogin(LoginView):
 class UserLoginOut(LoginRequiredMixin, LogoutView):
     template_name = 'blog/logout.html'
 
-
 @login_required
-def profile(request):
-    return render(request, 'blog/profile.html', {'menu': menu})
-
+def profile(request, pk):
+    # return render(request, 'blog/profile.html', {'birthday': request.user, 'first_name', 'last_name','email', 'username', 'menu': menu, 'pk':pk})
+    return render(request, 'blog/profile.html', {'birthday':request.user.birthday, 'first_name':request.user.first_name,
+                                                 'last_name':request.user.last_name,'email':request.user.email,
+                                                 'username':request.user.username, 'date_joined':request.user.date_joined,  'menu': menu, 'pk':pk})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

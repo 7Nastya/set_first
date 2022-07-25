@@ -1,10 +1,18 @@
 {% extends "blog/base.html" %}
-{% block title %}Профиль пользователя{% endblock %}
-{% block content %}
-    <h2>Профиль пользователя {{ user.username }}</h2>
-    {% if user.first_name and user.last_name %}
-        <p>Здравствуйте,{{ user.first_name }} {{ user.last_name }}!</p>
-    {% else %}
-        <p>Здравствуйте!</p>
-    {% endif %}
-{% endblock %}
+<div class="content">
+    {% block title %}Профиль пользователя{% endblock %}
+    {% block content %}
+        <h2>Профиль пользователя {{ user.username }}</h2>
+        {% if user.first_name and user.last_name %}
+            <p>Здравствуйте, {{ user.first_name }} {{ user.last_name }}!</p>
+        {% else %}
+            <p>Здравствуйте!</p>
+        {% endif %}
+        <h2>Личные данные:</h2>
+        <p>Ник: {{ username }}</p>
+        <p>Имя: {{ first_name }}</p>
+        <p>Фамилия: {{ last_name }} </p>
+        <p>День рождения: {{ birthday }} </p>
+        <p>Почта: {{ email }} </p>
+    {% endblock %}
+</div>
