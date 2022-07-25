@@ -70,7 +70,6 @@ class PostNew(FormView):
 class ChangeUserInfoView(UpdateView):
     model = MyUser
     template_name = 'blog/profile_edit.html'
-    # form_class = ChangeUserInfoForm
     success_url = 'profile'
     fields = ['birthday', 'first_name']
 

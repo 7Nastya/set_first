@@ -53,7 +53,9 @@
                 </ul>
             </h2>
         </div>
-        <div><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></div>
+        {% if request.user.pk %}
+            <div><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></div>
+        {% endif %}
     </div>
 
 
