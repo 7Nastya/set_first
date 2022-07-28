@@ -14,5 +14,7 @@
         <p>Фамилия: {{ last_name }} </p>
         <p>День рождения: {{ birthday }} </p>
         <p>Почта: {{ email }} </p>
+
+        <a href="{% url 'profile_edit' pk=request.user.pk %}">Изменить</a>
     {% endblock %}
 </div>

@@ -22,7 +22,7 @@
     <div class="sidebar">
         <a class="active" href={% url 'post_list' %}>Главная</a>
         {% if request.user.pk %}
-            <a href="{% url 'profile_edit' pk=request.user.pk %}">Изменить личные данные</a>
+            <a href="{% url 'profile' pk=request.user.pk %}">Профиль</a>
             <a href="{% url 'logout' %}">Выйти</a>
         {% else %}
             <a href="{% url 'login' %}">Войти</a>
@@ -55,7 +55,8 @@
             </h2>
         </div>
         {% if request.user.pk %}
-            <div><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></div>
+            <div><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
         {% endif %}
     </div>
 

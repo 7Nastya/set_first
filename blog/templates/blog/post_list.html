@@ -7,11 +7,11 @@
                 <p>Опубликовано: {{ post.published_date }}</p>
             </div>
             {% if post.foto %}
-                <p><img class="img-article-left thumb" src="{{post.foto.url}}"></p>
+                <p><img class="img-article-left thumb" src="{{ post.foto.url }}"></p>
             {% endif %}
 
             <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                <p>{{ post.text|linebreaksbr|truncatewords:70 }}</p>
+            <p>{{ post.text|linebreaksbr|truncatewords:70 }}</p>
         </div>
     {% endfor %}
 {% endblock %}

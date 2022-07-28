@@ -1,5 +1,5 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.urls import reverse
@@ -132,7 +132,7 @@ class PostEdit(UpdateView):
 
 class UserLogin(LoginView):
     template_name = 'blog/login.html'
-    # success_url = 'post_list'
+
 
 class UserLoginOut(LoginRequiredMixin, LogoutView):
     template_name = 'blog/logout.html'

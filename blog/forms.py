@@ -3,8 +3,7 @@ from django import forms
 from my_user.models import MyUser
 from .models import Post
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model, password_validation
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -22,7 +21,6 @@ class ChangeUserInfoForm(forms.ModelForm):
         model = MyUser
         fields = ('username', 'birthday', 'date_joined', 'email', 'first_name', 'last_name')
 
-#Регистрация пользователей:
 class SignUpForm(UserCreationForm):
     class Meta:
         model = MyUser
