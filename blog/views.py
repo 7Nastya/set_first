@@ -135,7 +135,6 @@ class UserLogin(LoginView):
 
 
 class UserLoginOut(LoginRequiredMixin, LogoutView):
-    template_name = 'blog/logout.html'
     next_page = 'post_list'
 
 
