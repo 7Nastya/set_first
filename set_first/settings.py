@@ -138,3 +138,4 @@ AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.RemoteUserBackend',
         'django.contrib.auth.backends.ModelBackend',
 )
+LOGIN_REDIRECT_URL = 'post_list'

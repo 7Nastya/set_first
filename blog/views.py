@@ -10,9 +10,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from my_user.models import MyUser
 from .models import Post
 from django.utils import timezone
-from .forms import PostForm
+from .forms import PostForm, SignUpForm
+
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
 menu = ["О сайте", "Обратная связь", "Войти", "Регистрация"]
+
 
 class PostList(ListView):
     queryset = Post.objects.all()
@@ -29,6 +34,7 @@ class PostList(ListView):
         context['menu'] = menu
         return context
 
+
 class PostDetail(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
@@ -41,6 +47,7 @@ class PostDetail(DetailView):
         context['title'] = 'Подробно'
         context['menu'] = menu
         return context
+
 
 class PostNew(FormView):
     form_class = PostForm
@@ -71,7 +78,7 @@ class ChangeUserInfoView(UpdateView):
     model = MyUser
     template_name = 'blog/profile_edit.html'
     success_url = 'profile'
-    fields = ['birthday', 'first_name', 'last_name','email', 'username']
+    fields = ['birthday', 'first_name', 'last_name', 'email', 'username']
 
     def get_post(self, pk):
         return get_object_or_404(Post, pk=pk)
@@ -92,6 +99,7 @@ class ChangeUserInfoView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.object.pk})
+
 
 class PostEdit(UpdateView):
     model = Post
@@ -124,17 +132,26 @@ class PostEdit(UpdateView):
 
 class UserLogin(LoginView):
     template_name = 'blog/login.html'
-
+    # success_url = 'post_list'
 
 class UserLoginOut(LoginRequiredMixin, LogoutView):
     template_name = 'blog/logout.html'
+    next_page = 'post_list'
+
+
+class SignUp(CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy("login")
+    template_name = "blog/signup.html"
+
 
 @login_required
 def profile(request, pk):
-    # return render(request, 'blog/profile.html', {'birthday': request.user, 'first_name', 'last_name','email', 'username', 'menu': menu, 'pk':pk})
-    return render(request, 'blog/profile.html', {'birthday':request.user.birthday, 'first_name':request.user.first_name,
-                                                 'last_name':request.user.last_name,'email':request.user.email,
-                                                 'username':request.user.username, 'date_joined':request.user.date_joined,  'menu': menu, 'pk':pk})
+    return render(request, 'blog/profile.html',
+                  {'username': request.user.username, 'first_name': request.user.first_name,
+                   'last_name': request.user.last_name, 'email': request.user.email,
+                   'birthday': request.user.birthday, 'menu': menu, 'pk': pk})
+
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

@@ -6,7 +6,6 @@ from django.contrib.auth.models import AbstractUser
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Автор")
     title = models.CharField(max_length=200, verbose_name="Заголовок")
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     text = models.TextField(blank=True, verbose_name="Текст статьи")
     foto = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name="Фото")
     created_date = models.DateTimeField(default=timezone.now, verbose_name="Время создания")

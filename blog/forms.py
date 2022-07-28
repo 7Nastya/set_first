@@ -2,7 +2,11 @@ from django import forms
 
 from my_user.models import MyUser
 from .models import Post
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.models import User
+
+User = get_user_model()
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -19,20 +23,7 @@ class ChangeUserInfoForm(forms.ModelForm):
         fields = ('username', 'birthday', 'date_joined', 'email', 'first_name', 'last_name')
 
 #Регистрация пользователей:
-# class UserRegistrationForm(forms.ModelForm):
-#     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-#     password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
-#
-#     class Meta:
-#         model = User
-#         fields = ('username', 'first_name', 'email')
-#
-#     def clean_password2(self):
-#         cd = self.cleaned_data
-#         if cd['password'] != cd['password2']:
-#             raise forms.ValidationError('Passwords don\'t match.')
-#         return cd['password2']
-#
-#
-# class LoginForm:
-#     pass
+class SignUpForm(UserCreationForm):
+    class Meta:
+        model = MyUser
+        fields = ('username', 'email', 'password1', 'password2', 'birthday', 'first_name', 'last_name' )
