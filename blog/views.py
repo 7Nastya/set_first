@@ -1,5 +1,6 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.urls import reverse
@@ -154,3 +155,9 @@ def profile(request, pk):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
+
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('post_list')

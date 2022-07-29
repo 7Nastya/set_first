@@ -11,4 +11,5 @@ urlpatterns = [
     path('accounts/profile/<int:pk>', views.profile, name='profile'),
     path('accounts/profile/<int:pk>/edit/', views.ChangeUserInfoView.as_view(), name='profile_edit'),
     path('accounts/logout/', views.UserLoginOut.as_view(), name='logout'),
+    path('post_delete/<int:pk>', views.post_delete, name='post_delete'),
 ]
