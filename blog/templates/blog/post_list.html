@@ -6,12 +6,16 @@
             <div class="date">
                 <p>Опубликовано: {{ post.published_date }}</p>
             </div>
-            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
-                <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">
-                <span class="glyphicon glyphicon-trash"></span>
-            </a>
+            {% if request.user.pk %}
+                <a class="btn btn-default" href="{% url 'post_new' %}">
+                    <span class="glyphicon glyphicon-plus"></span></a>
+                <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            {% endif %}
             {% if post.foto %}
                 <p><img class="img-article-left thumb" src="{{ post.foto.url }}"></p>
             {% endif %}
