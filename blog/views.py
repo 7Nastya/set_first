@@ -179,3 +179,12 @@ def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
+
+
+def comment_delete(request, pk, id):
+    post = get_object_or_404(Post, pk=pk)
+    selected_comment = get_object_or_404(Comment, id=id)
+    selected_comment.delete()
+    comment_form = UserCommentForm()
+    comments = Comment.objects.filter(post=pk)
+    return redirect('post_detail', pk=pk)

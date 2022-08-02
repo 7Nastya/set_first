@@ -35,7 +35,13 @@
 
         {% if comments %}
             {% for comment in comments %}
-                <h4>{{ comment.user }} {{ ' | ' }} {{ comment.created_date }}</h4>
+                <h4>{{ comment.user }} {{ ' | ' }} {{ comment.created_date }}
+                    {% if user == comment.user %}
+                        <a class="btn btn-default" href="{% url 'comment_delete' pk=post.pk id=comment.id %}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    {% endif %}
+                </h4>
                 {{ comment.content }}
             {% endfor %}
         {% endif %}
