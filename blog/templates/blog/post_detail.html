@@ -15,9 +15,6 @@
         <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">
             <span class="glyphicon glyphicon-trash"></span>
         </a>
-        <a class="btn btn-default" href="{% url 'post_comment' pk=post.pk %}">
-            <span class="glyphicon glyphicon-comment"></span>
-        </a>
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
 
@@ -27,6 +24,9 @@
                 {{ comment_form.content }}
                 <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
+        {% else %}
+            <h6><a href="{% url 'login' %}">Авторизуйтесь</a> или <a href="{% url 'signup' %}">зарегистрируйтесь</a>
+                чтобы оставить комментарий</h6>
         {% endif %}
     </div>
 

@@ -1,6 +1,5 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect
-from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.urls import reverse
@@ -43,7 +42,7 @@ class PostDetail(DetailView):
 
     def post(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
-        comment_form = UserCommentForm(request.POST or None) # post=post, user=self.request.user
+        comment_form = UserCommentForm(request.POST or None)
         comments = Comment.objects.filter(post=pk)
         if comment_form.is_valid():
             content = request.POST['content']
@@ -63,7 +62,7 @@ class PostDetail(DetailView):
         context['title'] = 'Подробно'
         context['menu'] = menu
         context['post'] = get_object_or_404(Post, pk=self.object.pk)
-        context['comment_form'] = UserCommentForm() # post=self.object, user=self.request.user
+        context['comment_form'] = UserCommentForm()
         context['comments'] = Comment.objects.filter(post=self.object.pk)
 
         return context
@@ -180,27 +179,3 @@ def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
-
-
-class PostDetailView(View):
-    def get(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
-        comment_form = UserCommentForm()
-        return render(request, 'blog/post_comment.html', context={
-            'post': post,
-            'comment_form': comment_form
-        })
-
-    def post(self, request, pk, *args, **kwargs):
-        comment_form = UserCommentForm(request.POST)
-        post = get_object_or_404(Post, pk=pk)
-        if comment_form.is_valid():
-            content = request.POST['content']
-            username = self.request.user
-            post = get_object_or_404(Post, pk=pk)
-            comment = Comment.objects.create(post=post, username=username, content=content)
-            return redirect('/')
-        return render(request, 'blog/post_comment.html', context={
-            'comment_form': comment_form,
-            'post': post,
-        })
