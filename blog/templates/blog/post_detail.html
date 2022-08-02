@@ -17,7 +17,9 @@
         </a>
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
+    </div>
 
+    <div class="comment">
         {% if user.is_authenticated %}
             <form method="post">
                 {% csrf_token %}
@@ -25,19 +27,17 @@
                 <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
         {% else %}
-            <h6><a href="{% url 'login' %}">Авторизуйтесь</a> или <a href="{% url 'signup' %}">зарегистрируйтесь</a>
-                чтобы оставить комментарий</h6>
-        {% endif %}
-    </div>
-
-    {% if comments %}
-        {% for comment in comments %}
             <div class="comment">
+                <h4><a href="{% url 'login' %}">Авторизуйтесь</a> или <a href="{% url 'signup' %}">зарегистрируйтесь</a>
+                    чтобы оставить комментарий</h4>
+            </div>
+        {% endif %}
+
+        {% if comments %}
+            {% for comment in comments %}
                 <h4>{{ comment.user }} {{ ' | ' }} {{ comment.created_date }}</h4>
                 {{ comment.content }}
-            </div>
-
-
-        {% endfor %}
-    {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
