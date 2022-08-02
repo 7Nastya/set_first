@@ -40,6 +40,14 @@ body {
     margin-left: 40px;
     font-size: 15pt;
     width: 1000px;
+    height: auto;
+}
+
+/*!* Содержимое страницы. Значение свойства margin-left должно совпадать со значением свойства width боковой панели *!*/
+div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -69,13 +77,15 @@ h1, h2, h3, h4, h5, h6 {
     height: 80px;
     width: 80px;
 }
+
 .comment {
-     margin-bottom: 70px;
+    margin-bottom: 70px;
 }
 
-.comment h4{
+.comment h4 {
     color: #f80339;
 }
+
 .post {
     margin-bottom: 70px;
 }
@@ -148,13 +158,6 @@ img.img-article-left.thumb {
 .sidebar a:hover:not(.active) {
     background-color: #f5e460;
     color: white;
-}
-
-/* Содержимое страницы. Значение свойства margin-left должно совпадать со значением свойства width боковой панели */
-div.content {
-    margin-left: 200px;
-    padding: 1px 16px;
-    height: 1000px;
 }
 
 /* На экранах, которые меньше 700px в ширину, сделать боковую панель в верхней панели */
