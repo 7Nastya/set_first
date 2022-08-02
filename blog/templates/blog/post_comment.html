@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+<div class="content">
+    {% block title %}Hoвый комментарий{% endblock %}
+    {% block content %}
+        <h4>Hoвый комментарий</h4>
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.content }}
+                 <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        {% else %}
+            <h6><a href="{% url 'login' %}">Авторизуйтесь</a> или <a href="{% url 'signup' %}">зарегистрируйтесь</a>
+                чтобы оставить комментарий</h6>
+        {% endif %}
+        {% if comments %}
+                {% for comment in comments %}
+                        <h5>{{ comment.username }}</h5>
+                        <р>{{ comment.content }}</р>
+                        <р class="text-right font-italic">{{ comment.created_date }}</р>
+                {% endfor %}
+        {% endif %}
+    {% endblock %}
+</div>

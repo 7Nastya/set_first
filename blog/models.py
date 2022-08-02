@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from my_user.models import MyUser
 
 
 class Post(models.Model):
@@ -23,3 +24,4 @@ class Post(models.Model):
         verbose_name = "Герои"
         verbose_name_plural = "Герои"
         ordering = ['created_date', 'title']
+

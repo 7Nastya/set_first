@@ -15,6 +15,9 @@
                 <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
+                <a class="btn btn-default" href="{% url 'post_comment' pk=post.pk %}">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </a>
             {% endif %}
             {% if post.foto %}
                 <p><img class="img-article-left thumb" src="{{ post.foto.url }}"></p>

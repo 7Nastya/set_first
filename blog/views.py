@@ -9,9 +9,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from my_user.models import MyUser
+from comment.models import Comment
 from .models import Post
 from django.utils import timezone
-from .forms import PostForm, SignUpForm
+from .forms import PostForm, SignUpForm, UserCommentForm
 
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -40,6 +41,20 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
 
+    def post(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        comment_form = UserCommentForm(request.POST or None) # post=post, user=self.request.user
+        comments = Comment.objects.filter(post=pk)
+        if comment_form.is_valid():
+            content = request.POST['content']
+            user = self.request.user
+            post = get_object_or_404(Post, pk=pk)
+            comment = comment_form.save()
+            comment.post = post
+            comment.user = user
+            comment.save()
+        return redirect('post_detail', pk=pk)
+
     def get_post(self, pk):
         return get_object_or_404(Post, pk=pk)
 
@@ -47,6 +62,10 @@ class PostDetail(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context['title'] = 'Подробно'
         context['menu'] = menu
+        context['post'] = get_object_or_404(Post, pk=self.object.pk)
+        context['comment_form'] = UserCommentForm() # post=self.object, user=self.request.user
+        context['comments'] = Comment.objects.filter(post=self.object.pk)
+
         return context
 
 
@@ -161,3 +180,27 @@ def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
+
+
+class PostDetailView(View):
+    def get(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        comment_form = UserCommentForm()
+        return render(request, 'blog/post_comment.html', context={
+            'post': post,
+            'comment_form': comment_form
+        })
+
+    def post(self, request, pk, *args, **kwargs):
+        comment_form = UserCommentForm(request.POST)
+        post = get_object_or_404(Post, pk=pk)
+        if comment_form.is_valid():
+            content = request.POST['content']
+            username = self.request.user
+            post = get_object_or_404(Post, pk=pk)
+            comment = Comment.objects.create(post=post, username=username, content=content)
+            return redirect('/')
+        return render(request, 'blog/post_comment.html', context={
+            'comment_form': comment_form,
+            'post': post,
+        })

@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'blog',
     'crispy_forms',
     'my_user',
+    'captcha',
+    'comment',
     # 'rest_framework'
 ]
 

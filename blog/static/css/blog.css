@@ -69,7 +69,13 @@ h1, h2, h3, h4, h5, h6 {
     height: 80px;
     width: 80px;
 }
+.comment {
+     margin-bottom: 70px;
+}
 
+.comment h4{
+    color: #f80339;
+}
 .post {
     margin-bottom: 70px;
 }
