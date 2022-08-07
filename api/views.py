@@ -1,25 +1,30 @@
 # GET - для пост лист, для одного поста, для одного комментария, для всех комментариев
 # Post - удаление, добавление, изменение
-
+from rest_framework import status
+from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import PostSerializer, CommentSerializer, CommentCreateSerializer, PostCreateSerializer
 from blog.models import Post
 from comment.models import Comment
+from django.core import serializers
 
 
 class PostListApiView(APIView):
     def get(self, request):
-        post = Post.objects.all()
-        serializer = PostSerializer
-        return Response(serializer.data)
+        # post = Post.objects.all().values()
+        post = serializers.serialize("json", Post.objects.all())
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        # serializer = PostSerializer
+        # return Response(serializer.data)
 
-
+#это работает
 class PostDetailApiView(APIView):
     def get(self, request, pk):
-        post = Post.objects.get(Post, pk=pk)
-        serializer = Post(post)
-        return Response(serializer.data)
+        post = get_object_or_404(Post, pk=pk)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class PostCreateView(APIView):
