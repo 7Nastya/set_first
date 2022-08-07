@@ -188,3 +188,14 @@ def comment_delete(request, pk, id):
     comment_form = UserCommentForm()
     comments = Comment.objects.filter(post=pk)
     return redirect('post_detail', pk=pk)
+
+def comment_update(request, pk, id):
+    post = get_object_or_404(Post, pk=pk)
+    comment = get_object_or_404(Comment, id=id)
+    form = UserCommentForm()
+    if request.method == 'POST':
+        form = UserCommentForm(request.POST, instance=comment.user)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=pk)
+    return redirect('post_list')

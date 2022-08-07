@@ -40,6 +40,9 @@
                         <a class="btn btn-default" href="{% url 'comment_delete' pk=post.pk id=comment.id %}">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
+                        <a class="btn btn-default" href="{% url 'comment_update' pk=post.pk id=comment.id %}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
                     {% endif %}
                 </h4>
                 {{ comment.content }}
