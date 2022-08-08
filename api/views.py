@@ -1,5 +1,3 @@
-# GET для одного комментария, для всех комментариев
-# Post - удаление, добавление, изменение
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
