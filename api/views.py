@@ -9,7 +9,6 @@ from blog.models import Post
 from comment.models import Comment
 
 
-# GET - для пост лист
 class PostListApiView(APIView):
     def get(self, request):
         post = Post.objects.all()
@@ -17,12 +16,16 @@ class PostListApiView(APIView):
         return Response({"post": serializer.data})
 
 
-# GET - для одного поста,
 class PostDetailApiView(APIView):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostCommentSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PostCreateView(APIView):
@@ -38,6 +41,11 @@ class CommentDetailApiView(APIView):
         comment = get_object_or_404(Comment, pk=pk)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
+
+    def delete(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentCreateView(APIView):
