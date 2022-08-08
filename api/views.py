@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer, CommentCreateSerializer, PostCreateSerializer
+from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer
 from blog.models import Post
 from comment.models import Comment
 
@@ -27,17 +27,10 @@ class PostDetailApiView(APIView):
 
 class PostCreateView(APIView):
     def post(self, request):
-        post = PostCreateSerializer(data=request.data)
+        post = PostSerializer(data=request.data)
         if post.is_valid():
             post.save()
         return Response(status=201)
-
-
-class CommentListApiView(APIView):
-    def get(self, request):
-        post = Comment.objects.all()
-        serializer = CommentSerializer(post, many=True)
-        return Response(serializer.data)
 
 
 class CommentDetailApiView(APIView):
@@ -49,7 +42,7 @@ class CommentDetailApiView(APIView):
 
 class CommentCreateView(APIView):
     def post(self, request):
-        comment = CommentCreateSerializer(data=request.data)
+        comment = CommentSerializer(data=request.data)
         if comment.is_valid():
             comment.save()
         return Response(status=201)

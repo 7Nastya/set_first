@@ -32,15 +32,3 @@ class PostSerializer(serializers.ModelSerializer):
                   'foto',
                   'created_date',
                   'published_date']
-
-
-class PostCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = "__all__"
-
-
-class CommentCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = "__all__"
