@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PostSerializer, CommentSerializer, CommentCreateSerializer, PostCreateSerializer
+from .serializers import PostSerializer, PostCommentSerializer, CommentSerializer, CommentCreateSerializer, PostCreateSerializer
 from blog.models import Post
 from comment.models import Comment
 
@@ -21,7 +21,7 @@ class PostListApiView(APIView):
 class PostDetailApiView(APIView):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        serializer = PostSerializer(post)
+        serializer = PostCommentSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -36,15 +36,14 @@ class PostCreateView(APIView):
 class CommentListApiView(APIView):
     def get(self, request):
         post = Comment.objects.all()
-        serializer = CommentSerializer
+        serializer = CommentSerializer(post, many=True)
         return Response(serializer.data)
 
 
 class CommentDetailApiView(APIView):
-    def get(self, request, pk, id):
-        post = Post.objects.get(Post, pk=pk)
-        comment = Comment.objects.get(Comment, id=id)
-        serializer = Comment(comment)
+    def get(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        serializer = CommentSerializer(comment)
         return Response(serializer.data)
 
 
