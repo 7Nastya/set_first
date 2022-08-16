@@ -1,7 +1,6 @@
 from django.urls import path
 from django.urls import include
 from api import urls
-from api.views import PostListApiView
 from . import views
 
 urlpatterns = [
@@ -18,5 +17,4 @@ urlpatterns = [
     path('comment_delete/<int:pk>/<int:id>', views.comment_delete, name='comment_delete'),
     path('comment_update/<int:pk>/<int:id>', views.comment_update, name='comment_update'),
     path('api/', include(urls)),
-    # path('api', PostListApiView.as_view()),
 ]
